@@ -1,3 +1,4 @@
+[Projeto em andamento]
 # laboratoria-hipoteses-spotify
 Projeto realizado como parte do Bootcamp Jornada de Dados da Laboratória.
 
@@ -53,8 +54,15 @@ O conjunto de dados está disponível no arquivo *spotify_2023.zip* deste projet
 
 # Escopo da análise de dados
 A presente análise consiste nas seguintes etapas:
- - Processar e preparar a base de dados;
- - Fazer uma análise exploratória;
- - Aplicar técnica de análise;
- - Resumir as informações em um dashboard ou relatório;
- - Apresentar os Resultados;
+
+### Processar e preparar a base de dados
+Nesta etapa optou-se por utilizar BigQuery, para realizar a etapa de processamento e preparação de dados.
+[parei aqui]
+
+### Fazer uma análise exploratória
+
+### Aplicar técnica de análise
+
+### Resumir as informações em um dashboard ou relatório
+
+### Apresentar os Resultados
