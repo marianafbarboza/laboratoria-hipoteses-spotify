@@ -1,5 +1,5 @@
 [Projeto em andamento]
-# laboratoria-hipoteses-spotify
+# Projeto hipoteses Spotify
 Projeto realizado como parte do Bootcamp Jornada de Dados da Laboratória.
 
 # Contexto do projeto
