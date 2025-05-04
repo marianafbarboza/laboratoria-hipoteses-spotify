@@ -2,7 +2,7 @@
 # Projeto hipoteses Spotify
 Projeto realizado como parte do Bootcamp Jornada de Dados da Laboratória.
 
-# Contexto do projeto
+# Contexto e Objetivo da Análise
 Uma gravadora enfrenta o desafio de lançar um novo artista no cenário musical global. Ela tem um extenso conjunto de dados do Spotify com informações sobre as músicas mais ouvidas no ano de 2023. A gravadora levantou uma série de hipóteses sobre o que faz uma música ser a mais ouvida. Essas hipóteses incluem:
  - Músicas com BPM (Batidas Por Minuto) mais altos fazem mais sucesso em termos de número de streams no Spotify;
  - As músicas mais populares no ranking do Spotify também possuem um comportamento semelhante em outras plataformas, como a Deezer;
@@ -10,6 +10,11 @@ Uma gravadora enfrenta o desafio de lançar um novo artista no cenário musical 
  - Artistas com um maior número de músicas no Spotify têm mais streams;
  - As características da música influenciam o sucesso em termos de número de streams no Spotify;
 
+Sendo assim, o objetivo é analisar a base de dados para refutar ou confirmar tais hipóteses e auxiliar a gravadora com insights e informações importantes a respeito das músicas mais ouvidas.
+
+# Ferramentas e Tecnologias utilizadas
+- BigQuery e Linguagem SQL;
+- PowerBI;
 
 # Conjunto de dados (dataset) analisado
 O conjunto de dados está disponível no arquivo *spotify_2023.zip* deste projeto, que contém três arquivos CSV:
@@ -51,14 +56,19 @@ O conjunto de dados está disponível no arquivo *spotify_2023.zip* deste projet
  - speechiness_%: Quantidade de palavras faladas na música;
 
 
-
 # Escopo da análise de dados
-A presente análise consiste nas seguintes etapas:
+A análise consiste no desenvolvimento das seguintes habilidades:
+- Processamento e preparação dos dados;
+- Análise Exploratória;
+- Aplicação de técnicas de análise;
+- Construção de Dashboards;
+- Apresentação dos Resultados;
 
-### Processar e preparar a base de dados
-Nesta etapa optou-se por utilizar BigQuery, para realizar a etapa de processamento e preparação de dados.
-[parei aqui]
+### Processamento e preparação dos dados
+Como primeiro passo, foi realizada a identificação e tratamento de valores nulos encontrados. Nesse primeiro momento, optou-se por não excluir tais valores, uma vez que pode-se desconsiderá-los, caso necessário, com pequenas alterações nas consultas SQL realizadas.
 
+No segundo momento foi realizada a identificação de valores duplicados, foram encontrados 04 valores com track_name e track_id duplicados (com 02 registros cada). Para o tratamento destes dados, foram identificados, através do track_name, os track_ids das músicas duplicadas e realizou-se uma análise visual das informações de cada track_id. Foi verificado que há muitas informações divergentes das músicas duplicadas nas 03 tabelas, incluindo detalhes mais técnicos das mesmas. Sendo assim, considerou-se que a informação desses track_ids não é confiável e considerando que os 08 registros representam menos de 1% da amostra, foram considerados irrelevantes na presente análise e, portanto, excluídos através da utilização de `NOT IN` na nossa query.
+ 
 ### Fazer uma análise exploratória
 
 ### Aplicar técnica de análise
