@@ -74,10 +74,10 @@ No segundo momento foi realizada a identificação de valores duplicados, foram 
 ```
 SELECT
   *
+
 FROM `projeto-spotify-457320.dadoshistoricos.spotify`
-WHERE track_id NOT IN ('7173596', '5080031',
-'5675634', '3814670', '1119309',
-'4586215', '4967469', '8173823')
+
+WHERE track_id NOT IN ('7173596', '5080031', '5675634', '3814670', '1119309', '4586215', '4967469', '8173823')
 ```
 
 #### Dados considerados fora do Escopo da Análise
@@ -98,12 +98,11 @@ Identificou que as variáveis categóricas "track_name" e "artist_name" da tabel
 Além disso, na variável numérica "streams" da tabela Spotify também encontrou-se valores inválidos, pois o campo é do tipo `STRING` e há valores numéricos `INTEGER`. Para alterar o tipo de dado da variável, utilizamos a seguinte função:
 
 ```
+SELECT streams,
 
-SELECT
-streams,
 SAFE_CAST(streams AS INT64) AS streams_limpo
-FROM `projeto-spotify-457320.dadoshistoricos.spotify`
 
+FROM `projeto-spotify-457320.dadoshistoricos.spotify`
 ```
 
 #### Criação de Novas Variáveis
