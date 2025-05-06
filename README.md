@@ -87,7 +87,6 @@ No segundo momento foi realizada a identificação de valores duplicados, foram 
 | SPIT IN MY FACE!     | ThxSoMch              | 2          |
 
 
-
 Para o tratamento destes dados, foram identificados, através do track_name, os track_ids das músicas duplicadas e realizou-se uma análise visual das informações de cada track_id. Foi verificado que há muitas informações divergentes das músicas duplicadas nas 03 tabelas, incluindo detalhes mais técnicos das mesmas. Sendo assim, considerou-se que a informação desses track_ids não é confiável e considerando que os 08 registros representam menos de 1% da amostra, foram considerados irrelevantes na presente análise e, portanto, excluídos através da utilização de `NOT IN` na nossa query:
 
 ```
@@ -99,22 +98,23 @@ FROM `projeto-spotify-457320.dadoshistoricos.spotify`
 WHERE track_id NOT IN ('7173596', '5080031', '5675634', '3814670', '1119309', '4586215', '4967469', '8173823')
 ```
 
-#### Dados considerados fora do Escopo da Análise
+#### 4.1.4 Dados fora do Escopo da Análise
 O escopo da análise envolve as hipóteses já detalhadas, sendo assim, optamos por manter a seguinte variável de cada tabela:
 - TABELA SPOTIFY: track_id, track_name, artist_name, artist_count, released_year, released_month, released_day, in_spotify_playlists, in_spotify_charts, streams;
+
 - TABELA COMPETITION: track_id, in_apple_playlists, in_apple_charts, in_deezer_playlists, in_deezer_charts;
 A variável “in_shazam_charts” foi excluída pois não é uma plataforma tão utilizada para ouvir música, mas sim para identificar artista e música, em tempo real, sendo irrelevante para a presente análise.
 
 - TABELA TECHNICAL_INFO: track_id, bpm, danceability_%, valence_%, energy_%; 
 Considerando alguns estudos que apontam 03 variáveis mais relevantes no sucesso de uma música, optou-se por mantê-los, além de track_id e bpm.
 
-#### Identificação e Tratamento de Dados Discrepantes
-Identificou que as variáveis categóricas "track_name" e "artist_name" da tabela spotify possuíam caracteres especiais e letras maiúsculas, sendo assim, foram utilizadas as funções `REGEXUP_REPLACE` e `LOWER` para tratar estes casos.
+#### 4.1.5 Identificação e Tratamento de Dados Discrepantes
+Identificou-se que as variáveis categóricas "track_name" e "artist_name" da tabela spotify possuem caracteres especiais e letras maiúsculas, sendo assim, foram utilizadas as funções `REGEXUP_REPLACE` e `LOWER` para tratar estes casos.
 - LOWER: converte todo o texto para letras minúsculas;
 - REGEXP_REPLACE(..., '[^\\x00-\\x7F]', ' '): identifica e substitui qualquer caractere não-ASCII (letras com acento, emojis e símbolos especiais) por um espaço;
 - REGEXP_REPLACE(..., '[^a-z0-9]', ' '): identifica e substitui qualquer coisa que não seja letra minúscula ou número por um espaço;
 
-Além disso, na variável numérica "streams" da tabela Spotify também encontrou-se valores inválidos, pois o campo é do tipo `STRING` e há valores numéricos `INTEGER`. Para alterar o tipo de dado da variável, utilizamos a seguinte função:
+Além disso, na variável numérica "streams" da tabela Spotify também encontrou-se valores inválidos, pois a variável está definida como tipo `STRING` e, por tratar-se de valores numéricos, deveria ser `INTEGER`. Sendo assim, optou-se por alterar o tipo de dado da variável, utilizando a seguinte função:
 
 ```
 SELECT streams,
@@ -124,11 +124,38 @@ SAFE_CAST(streams AS INT64) AS streams_limpo
 FROM `projeto-spotify-457320.dadoshistoricos.spotify`
 ```
 
-#### Criação de Novas Variáveis
-texto
+#### 4.1.6 Criação de Novas Variáveis
+Neste ponto do projeto, optou-se pela criação de uma nova variável "data_de_lançamento", concatenando as variáveis: released_year, released_month, released_day. Além disso, as mesmas estavam definidas como do tipo `INTEGER` e para concatenar, deve-se utilizar o formato `STRING`. 
+Para tal, foi utilizada a função `PARSE_DATE` que transforma a string formatada no tipo `DATE`, e o `FORMAT` para deixar utilizar o formato YYYY-MM-DD:
 
+```
+SELECT released_year, released_month, released_day
 
-### Fazer uma análise exploratória
+PARSE_DATE('%Y-%m-%d', FORMAT('%04d-%02d-%02d', released_year, released_month, released_day)) AS data_de_lancamento
+
+FROM `projeto-spotify-457320.dadoshistoricos.spotify`
+
+```
+
+#### 4.1.7 Unir tabelas
+A fim de criar uma tabela única, para facilitar a análise dos dados, criou-se Views com os dados "limpos" de todas as tabelas. Considerando aqui, a vantagem de não armazenar os dados, apenas salvar a consulta, sendo mais rápido de executar e tendo um menor custo para armazenamento.
+As views de cada tabela foram construídas por meio de consulta SQL, da seguinte maneira
+
+```
+--VIEW-COMPETITION
+
+SELECT
+  * EXCEPT (in_shazam_charts)
+FROM
+  `projeto-spotify-457320.dadoshistoricos.competition`
+WHERE
+  track_id NOT IN (
+    '7173596', '5080031', '5675634', '3814670',
+    '1119309', '4586215', '4967469', '8173823', '4061483')
+
+```
+
+### 4.2 Análise exploratória
 
 ### Aplicar técnica de análise
 
