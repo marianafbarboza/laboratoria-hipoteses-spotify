@@ -55,7 +55,6 @@ O conjunto de dados está disponível no arquivo *spotify_2023.zip* deste projet
  - liveness_%: Presença de elementos de performance ao vivo;
  - speechiness_%: Quantidade de palavras faladas na música;
 
-
 # 4. Escopo da análise de dados
 A análise consiste no desenvolvimento das seguintes habilidades:
 - Processamento e preparação dos dados;
@@ -95,7 +94,9 @@ SELECT
 
 FROM `projeto-spotify-457320.dadoshistoricos.spotify`
 
-WHERE track_id NOT IN ('7173596', '5080031', '5675634', '3814670', '1119309', '4586215', '4967469', '8173823')
+WHERE
+  track_id NOT IN ('7173596', '5080031', '5675634', '3814670',
+'1119309', '4586215', '4967469', '8173823')
 ```
 
 #### 4.1.4 Dados fora do Escopo da Análise
@@ -142,16 +143,50 @@ A fim de criar uma tabela única, para facilitar a análise dos dados, criou-se 
 As views de cada tabela foram construídas por meio de consulta SQL, da seguinte maneira
 
 ```
---VIEW-COMPETITION
+--VIEW COMPETITION
 
 SELECT
   * EXCEPT (in_shazam_charts)
 FROM
   `projeto-spotify-457320.dadoshistoricos.competition`
 WHERE
-  track_id NOT IN (
-    '7173596', '5080031', '5675634', '3814670',
-    '1119309', '4586215', '4967469', '8173823', '4061483')
+  track_id NOT IN ('7173596', '5080031', '5675634', '3814670',
+'1119309', '4586215', '4967469', '8173823')
+
+
+--VIEW TECHNICAL INFO
+
+SELECT
+  track_id, bpm, `danceability_%`, `valence_%`, `energy_%`
+FROM
+  `projeto-spotify-457320.dadoshistoricos.technical_info`
+WHERE
+  track_id NOT IN ('7173596', '5080031',     '5675634','3814670',
+'1119309', '4586215','4967469','8173823', '4061483')
+
+
+--VIEW-SPOTIFY
+
+SELECT
+  track_id, artist_count,
+
+--limpeza de variáveis track name e artist name
+  REGEXP_REPLACE( REGEXP_REPLACE(LOWER(track_name), '[^\\x00-\\x7F]', ' '), '[^a-z0-9]', ' ' ) AS track_name_limpo,
+  REGEXP_REPLACE(REGEXP_REPLACE(LOWER(artist_name), '[^\\x00-\\x7F]', ' '),'[^a-z0-9]', ' ' ) AS artist_name_limpo,
+
+--data de lancamento (YYYY-MM-DD)
+PARSE_DATE('%Y-%m-%d', FORMAT('%04d-%02d-%02d', released_year, released_month, released_day)) AS data_de_lancamento,
+
+in_spotify_playlists, in_spotify_charts,
+
+--tratamento de streams como INTEGER
+  SAFE_CAST(streams AS INT64) AS streams_limpo
+FROM
+  `projeto-spotify-457320.dadoshistoricos.spotify`
+
+WHERE
+track_id NOT IN ('7173596', '5080031', '5675634', '3814670',
+ '1119309', '4586215', '4967469', '8173823', '4061483')
 
 ```
 
