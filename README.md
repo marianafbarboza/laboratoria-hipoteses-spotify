@@ -2,7 +2,7 @@
 # Projeto hipoteses Spotify
 Projeto realizado como parte do Bootcamp Jornada de Dados da Laboratória.
 
-# Contexto e Objetivo da Análise
+# 1. Contexto e Objetivo da Análise
 Uma gravadora enfrenta o desafio de lançar um novo artista no cenário musical global. Ela tem um extenso conjunto de dados do Spotify com informações sobre as músicas mais ouvidas no ano de 2023. A gravadora levantou uma série de hipóteses sobre o que faz uma música ser a mais ouvida. Essas hipóteses incluem:
  - Músicas com BPM (Batidas Por Minuto) mais altos fazem mais sucesso em termos de número de streams no Spotify;
  - As músicas mais populares no ranking do Spotify também possuem um comportamento semelhante em outras plataformas, como a Deezer;
@@ -12,11 +12,11 @@ Uma gravadora enfrenta o desafio de lançar um novo artista no cenário musical 
 
 Sendo assim, o objetivo é analisar a base de dados para refutar ou confirmar tais hipóteses e auxiliar a gravadora com insights e informações importantes a respeito das músicas mais ouvidas.
 
-# Ferramentas e Tecnologias utilizadas
+# 2. Ferramentas e Tecnologias utilizadas
 - BigQuery e Linguagem SQL;
 - PowerBI;
 
-# Conjunto de dados (dataset) analisado
+# 3. Conjunto de dados (dataset) analisado
 O conjunto de dados está disponível no arquivo *spotify_2023.zip* deste projeto, que contém três arquivos CSV:
 
  ### track_in_spotify.csv
@@ -28,18 +28,18 @@ O conjunto de dados está disponível no arquivo *spotify_2023.zip* deste projet
  - released_year: Ano em que a música foi lançada;
  - released_month: Mês em que a música foi lançada;
  - released_day: Dia do mês em que a música foi lançada;
- - inspotifyplaylists: Número de listas de reprodução do Spotify em que a música está incluída;
- - inspotifycharts: Presença e posição da música nas paradas do Spotify;
+ - in_spotif_yplaylists: Número de listas de reprodução do Spotify em que a música está incluída;
+ - in_spotify_charts: Presença e posição da música nas paradas do Spotify;
  - streams: Número total de streams no Spotify. Representa o número de vezes que a música foi ouvida;
 
  ### track_in_competition.csv
  Detalha o desempenho em outras plataformas (como Deezer ou Apple Music). Contém as colunas:
  - track_id: Identificador exclusivo da música. É um número inteiro de 7 dígitos que não se repete;
- - inappleplaylists: número de listas de reprodução da Apple Music em que a música está incluída;
- - inapplecharts: Presença e classificação da música nas paradas da Apple Music;
- - indeezerplaylists: Número de playlists do Deezer em que a música está incluída;
- - indeezercharts: Presença e posição da música nas paradas da Deezer;
- - inshazamcharts: Presença e classificação da música nas paradas da Shazam;
+ - in_apple_playlists: número de listas de reprodução da Apple Music em que a música está incluída;
+ - in_apple_charts: Presença e classificação da música nas paradas da Apple Music;
+ - in_deezer_playlists: Número de playlists do Deezer em que a música está incluída;
+ - in_deezer_charts: Presença e posição da música nas paradas da Deezer;
+ - in_shazam_charts: Presença e classificação da música nas paradas da Shazam;
 
  ### track_technical_info.csv
  Traz as características das músicas, detalhando:
@@ -56,7 +56,7 @@ O conjunto de dados está disponível no arquivo *spotify_2023.zip* deste projet
  - speechiness_%: Quantidade de palavras faladas na música;
 
 
-# Escopo da análise de dados
+# 4. Escopo da análise de dados
 A análise consiste no desenvolvimento das seguintes habilidades:
 - Processamento e preparação dos dados;
 - Análise Exploratória;
@@ -64,12 +64,29 @@ A análise consiste no desenvolvimento das seguintes habilidades:
 - Construção de Dashboards;
 - Apresentação dos Resultados;
 
-### Processamento e preparação dos dados
-#### Valores Nulos
+### 4.1 Processamento e preparação dos dados
+#### 4.1.1 Importação de Dados
 Como primeiro passo, foi realizada a identificação e tratamento de valores nulos encontrados. Nesse primeiro momento, optou-se por não excluir tais valores, uma vez que pode-se desconsiderá-los, caso necessário, com pequenas alterações nas consultas SQL realizadas.
 
-#### Valores Duplicados
-No segundo momento foi realizada a identificação de valores duplicados, foram encontrados 04 valores com track_name e track_id duplicados (com 02 registros cada). Para o tratamento destes dados, foram identificados, através do track_name, os track_ids das músicas duplicadas e realizou-se uma análise visual das informações de cada track_id. Foi verificado que há muitas informações divergentes das músicas duplicadas nas 03 tabelas, incluindo detalhes mais técnicos das mesmas. Sendo assim, considerou-se que a informação desses track_ids não é confiável e considerando que os 08 registros representam menos de 1% da amostra, foram considerados irrelevantes na presente análise e, portanto, excluídos através da utilização de `NOT IN` na nossa query:
+#### 4.1.2 Valores Nulos
+Como primeiro passo, utilizando a função `SELECT COUNT (*)` foi realizada a identificação e tratamento de valores nulos, sendo encontrados os seguintes, em cada tabela:
+- Tabela competition: total de 953 registros, in_shazam_charts (50 nulos);
+- Tabela spotify: total de 953 registros, não encontrei nulos;
+- Tabela technical_info: 953 registros, key (95 nulos);
+
+Nesse primeiro momento, optou-se por não excluir tais valores, uma vez que pode-se desconsiderá-los, caso necessário, com pequenas alterações nas consultas SQL realizadas.
+
+#### 4.1.3 Valores Duplicados
+No segundo momento foi realizada a identificação de valores duplicados, foram encontrados 04 valores com track_name e track_id duplicados (com 02 registros cada):
+track_name           |             artist_name             | contagem
+SNAP                 |              Rosa Linn              |    2
+About Damn Time      |                Lizzo                |    2
+Take My Breath       |              The Weeknd             |    2
+SPIT IN MY FACE!     |               ThxSoMch              |    2
+
+
+
+Para o tratamento destes dados, foram identificados, através do track_name, os track_ids das músicas duplicadas e realizou-se uma análise visual das informações de cada track_id. Foi verificado que há muitas informações divergentes das músicas duplicadas nas 03 tabelas, incluindo detalhes mais técnicos das mesmas. Sendo assim, considerou-se que a informação desses track_ids não é confiável e considerando que os 08 registros representam menos de 1% da amostra, foram considerados irrelevantes na presente análise e, portanto, excluídos através da utilização de `NOT IN` na nossa query:
 
 ```
 SELECT
