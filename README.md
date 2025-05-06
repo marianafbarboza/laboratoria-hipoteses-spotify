@@ -78,11 +78,13 @@ Nesse primeiro momento, optou-se por não excluir tais valores, uma vez que pode
 
 #### 4.1.3 Valores Duplicados
 No segundo momento foi realizada a identificação de valores duplicados, foram encontrados 04 valores com track_name e track_id duplicados (com 02 registros cada):
-track_name           |             artist_name             | contagem
-SNAP                 |              Rosa Linn              |    2
-About Damn Time      |                Lizzo                |    2
-Take My Breath       |              The Weeknd             |    2
-SPIT IN MY FACE!     |               ThxSoMch              |    2
+
+|      track_name      |      artist_name      |  contagem  |
+|----------------------|-----------------------|------------|
+| SNAP                 | Rosa Linn             | 2          |
+| About Damn Time      | Lizzo                 | 2          |
+| Take My Breath       | The Weeknd            | 2          |
+| SPIT IN MY FACE!     | ThxSoMch              | 2          |
 
 
 
