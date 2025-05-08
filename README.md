@@ -17,6 +17,7 @@ Sendo assim, o objetivo é analisar a base de dados para refutar ou confirmar ta
 # 2. Ferramentas e Tecnologias utilizadas
 - BigQuery e Linguagem SQL;
 - PowerBI;
+- Python;
 
 
 # 3. Conjunto de dados (dataset) analisado
@@ -238,7 +239,18 @@ LEFT JOIN `projeto-spotify-457320.dadoshistoricos.view-technical-info` AS t
 
 
 ### 4.2 Análise exploratória
-Esta é uma etapa 
+Por se tratar de uma fase fundamental na compreensão de dados, foram utilizados BigQuery e Power BI, conjuntamente, nessa etapa. O Power BI agrega muito na visualização de dados, criação de dashboards interativos e gráficos dinâmicos, o que facilita a exploração e compreensão dos dados.
+Já o BigQuery, ferramenta voltada para armazenamento e análise de dados, possibilita lidar com um grande volume de dados, com alto desempenho, fornecendo através das consultas, informações valiosas sobre o conjunto de dados.
+A ideia de combinar BigQuery e Power BI é exatamente extrair e transformar dados, para na sequência visualizar e explorar os mesmos com profundidade. Permitindo desvendar insights significativos, identificar relacionamentos entre variáveis e possibilitar uma melhor tomada de decisão. 
+
+#### 4.2.1 Variáveis Categóricas
+Nessa fase do projeto agrupou-se algumas variáveis categóricas para visualizá-las na forma de gráficos de barras:
+
+(INSERIR TABELAS E GRAFICOS)
+(breve descricao)
+
+#### 4.2.2 Medidas de Tendência Central
+Para compreender melhor o conjunto de dados, calculou-se médias e medianas de 
 
 ### Aplicar técnica de análise
 
