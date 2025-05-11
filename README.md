@@ -324,7 +324,8 @@ Quanto ao desvio padrão de streams, o mesmo possui um valor alto, demonstrando 
 
 #### 4.2.5 Comportamento de variáveis ao longo do tempo
 Neste ponto, as variáveis streams e quantidade de músicas lançadas foram analisadas, quanto ao seu comportamento ao longo do tempo. As análises foram realizadas considerando os valores mensais, do período analisado:
-![mes](https://github.com/user-attachments/assets/d11ad460-c282-4564-8856-d76e514eb83e)
+
+![mes](https://github.com/user-attachments/assets/9d82ede3-bcfd-4173-a983-8cb58d47258d)
 
 
 Assim como, anuais:
