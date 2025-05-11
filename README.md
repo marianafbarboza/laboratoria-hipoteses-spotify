@@ -251,6 +251,7 @@ Nessa fase do projeto foram construídas algumas tabelas no Power BI, destacando
 
 A partir destas informações foram construídos gráficos para uma melhor visualização:
 Analisando, por exemplo, os tops 10 artistas em playlists do Spotify, Deezer e Apple:
+
 ![barras1](https://github.com/user-attachments/assets/9e30784a-0a1b-4458-8018-eedea83ca502)
 
 
@@ -266,11 +267,14 @@ E o total de músicas lançadas mensalmente, no período analisado:
 
 #### 4.2.2 Medidas de Tendência Central
 Para compreender melhor o conjunto de dados, calculou-se médias e medianas das variáveis BPM e streams. Quanto a BPM, pode-se observar que sua média e mediana, na amostra analisada, apresentam valores bastante próximos:
+
 |      soma_BPM        |      media_BPM      |  mediana_BPM  |
 |----------------------|---------------------|---------------|
 | 115491               | 122,47              | 121,00        |
 
+
 Já para a variável streams, média e mediana possuem valores muito distintos:
+
 |      soma_streams    |      media_streams      |  mediana_streams  |
 |----------------------|-------------------------|-------------------|
 | 485404921248         | 512400128,44            | 287239934         |
@@ -303,6 +307,7 @@ Aqui foram analisadas as variáveis streams, bpm, in_spotify_playlists e in_spot
 
 
 ![histograma1](https://github.com/user-attachments/assets/ebac27a8-c1d3-49d7-84cf-2f6875f6d364)
+
 
 
 ![histograma2](https://github.com/user-attachments/assets/e91c573a-f2da-4c76-8607-5d0cba51015b)
