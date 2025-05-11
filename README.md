@@ -1,6 +1,5 @@
 [Projeto em andamento]
 # Projeto hipoteses Spotify
-Projeto realizado como parte do Bootcamp Jornada de Dados da Laboratória.
 
 
 # 1. Contexto e Objetivo da Análise
