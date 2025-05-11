@@ -253,10 +253,14 @@ A partir destas informações foram construídos gráficos para uma melhor visua
 Analisando, por exemplo, os tops 10 artistas em playlists do Spotify, Deezer e Apple:
 ![barras1](https://github.com/user-attachments/assets/9e30784a-0a1b-4458-8018-eedea83ca502)
 
+
 Assim como, o total de streams por artista (top 10):
+
 ![barras2](https://github.com/user-attachments/assets/362dba14-b408-4e28-954d-19629e157790)
 
+
 E o total de músicas lançadas mensalmente, no período analisado:
+
 ![barras3](https://github.com/user-attachments/assets/43515ffe-40d5-47cf-90c2-2dedc7d53117)
 
 
@@ -297,7 +301,9 @@ plt.show()
 Para analisar as diferentes variáveis, basta substituir o campo 'variável' pelo que deseja analisar.
 Aqui foram analisadas as variáveis streams, bpm, in_spotify_playlists e in_spotify_charts:
 
+
 ![histograma1](https://github.com/user-attachments/assets/ebac27a8-c1d3-49d7-84cf-2f6875f6d364)
+
 
 ![histograma2](https://github.com/user-attachments/assets/e91c573a-f2da-4c76-8607-5d0cba51015b)
 
