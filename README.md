@@ -291,7 +291,7 @@ import pandas as pd
 # Obtenha os dados do Power BI - você só preciso alterar essas informações de todo o code
 data = dataset[['variável']]
 
-# Crie o histogram
+# Crie o histograma
 plt.hist(data, bins=10, color='blue', alpha=0.7)
 plt.xlabel('Value' )
 plt.ylabel('Frequency')
@@ -309,8 +309,30 @@ Aqui foram analisadas as variáveis streams, bpm, in_spotify_playlists e in_spot
 ![histograma1](https://github.com/user-attachments/assets/ebac27a8-c1d3-49d7-84cf-2f6875f6d364)
 
 
-
 ![histograma2](https://github.com/user-attachments/assets/e91c573a-f2da-4c76-8607-5d0cba51015b)
+
+
+#### 4.2.4 Medidas de Dispersão
+Optou-se por analisar o desvio padrão das mesmas variáveis analisadas nos passos anteriores: BPM e streams.
+|      desvio_padrao_BPM        |      desvio_padrao_streams      |
+|-------------------------------|---------------------------------|
+| 28,05                         | 568568151,36                    | 
+
+O desvio padrão de BPM possui um valor considerado baixo, demonstrando que a amostra possui muitos valores próximos a média, portanto, com menor variação dos valores. Informação confirmada ao analisar o histograma já apresentado.
+Quanto ao desvio padrão de streams, o mesmo possui um valor alto, demonstrando dados mais dispersos, e relação a média. E, portanto, maior variação dos mesmos, como evidenciado no histograma em que observa-se algumas faixas com frequência bem alta e outras, quase inexistentes.
+
+
+#### 4.2.5 Comportamento de variáveis ao longo do tempo
+Neste ponto, as variáveis streams e quantidade de músicas lançadas foram analisadas, quanto ao seu comportamento ao longo do tempo. As análises foram realizadas considerando os valores mensais, do período analisado:
+![mes](https://github.com/user-attachments/assets/d11ad460-c282-4564-8856-d76e514eb83e)
+
+
+Assim como, anuais:
+![ano](https://github.com/user-attachments/assets/61bdfcff-4b00-4f77-b0bb-10770e6f5375)
+
+
+#### 4.2.6 Análise da amostra em quartis
+
 
 
 ### Aplicar técnica de análise
