@@ -244,13 +244,63 @@ Já o BigQuery, ferramenta voltada para armazenamento e análise de dados, possi
 A ideia de combinar BigQuery e Power BI é exatamente extrair e transformar dados, para na sequência visualizar e explorar os mesmos com profundidade. Permitindo desvendar insights significativos, identificar relacionamentos entre variáveis e possibilitar uma melhor tomada de decisão. 
 
 #### 4.2.1 Variáveis Categóricas
-Nessa fase do projeto agrupou-se algumas variáveis categóricas para visualizá-las na forma de gráficos de barras:
+Nessa fase do projeto foram construídas algumas tabelas no Power BI, destacando algumas variáveis categóricas, para realizar uma primeira análise exploratória, analisando, por exemplo:
+- músicas e sua presença em playlists do spotify, assim como número total de streams;
+- artista, quantidade de músicas na base de dados e soma total de streams;
+- número de músicas por artista, ordenadas de forma decrescente;
 
-(INSERIR TABELAS E GRAFICOS)
-(breve descricao)
+A partir destas informações foram construídos gráficos para uma melhor visualização:
+Analisando, por exemplo, os tops 10 artistas em playlists do Spotify, Deezer e Apple:
+![barras1](https://github.com/user-attachments/assets/9e30784a-0a1b-4458-8018-eedea83ca502)
+
+Assim como, o total de streams por artista (top 10):
+![barras2](https://github.com/user-attachments/assets/362dba14-b408-4e28-954d-19629e157790)
+
+E o total de músicas lançadas mensalmente, no período analisado:
+![barras3](https://github.com/user-attachments/assets/43515ffe-40d5-47cf-90c2-2dedc7d53117)
+
 
 #### 4.2.2 Medidas de Tendência Central
-Para compreender melhor o conjunto de dados, calculou-se médias e medianas de 
+Para compreender melhor o conjunto de dados, calculou-se médias e medianas das variáveis BPM e streams. Quanto a BPM, pode-se observar que sua média e mediana, na amostra analisada, apresentam valores bastante próximos:
+|      soma_BPM        |      media_BPM      |  mediana_BPM  |
+|----------------------|---------------------|---------------|
+| 115491               | 122,47              | 121,00        |
+
+Já para a variável streams, média e mediana possuem valores muito distintos:
+|      soma_streams    |      media_streams      |  mediana_streams  |
+|----------------------|-------------------------|-------------------|
+| 485404921248         | 512400128,44            | 287239934         |
+
+
+#### 4.2.3 Distribuição dos dados através de histograma
+Como os gráficos de histograma não estão disponíveis no pacote normal do Power BI, realizamos a instalação de Python, afim de utilizar as histogramas para uma visualização mais robusta da distribuição de nossa amostra em alguns aspectos, como streams, BPM e presença em playlist do Spotify.
+Para gerar os histogramas utilizando Python, inserimos o seguinte código:
+
+```
+import matplotlib.pyplot as plt
+import pandas as pd
+
+# Obtenha os dados do Power BI - você só preciso alterar essas informações de todo o code
+data = dataset[['variável']]
+
+# Crie o histogram
+plt.hist(data, bins=10, color='blue', alpha=0.7)
+plt.xlabel('Value' )
+plt.ylabel('Frequency')
+plt .title('Histogram')
+
+# Mostre o histogram
+plt.show()
+
+```
+
+Para analisar as diferentes variáveis, basta substituir o campo 'variável' pelo que deseja analisar.
+Aqui foram analisadas as variáveis streams, bpm, in_spotify_playlists e in_spotify_charts:
+
+![histograma1](https://github.com/user-attachments/assets/ebac27a8-c1d3-49d7-84cf-2f6875f6d364)
+
+![histograma2](https://github.com/user-attachments/assets/e91c573a-f2da-4c76-8607-5d0cba51015b)
+
 
 ### Aplicar técnica de análise
 
