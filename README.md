@@ -1,5 +1,4 @@
-[Projeto em andamento]
-# Projeto Hipóteses do Spotify
+# Projeto de Validação de Hipóteses do Spotify
 
 
 # 1. Contexto e Objetivo da Análise
