@@ -1,9 +1,10 @@
 [Projeto em andamento]
-# Projeto hipoteses Spotify
+# Projeto Hipóteses do Spotify
 
 
 # 1. Contexto e Objetivo da Análise
-Uma gravadora enfrenta o desafio de lançar um novo artista no cenário musical global. Ela tem um extenso conjunto de dados do Spotify com informações sobre as músicas mais ouvidas no ano de 2023. A gravadora levantou uma série de hipóteses sobre o que faz uma música ser a mais ouvida. Essas hipóteses incluem:
+Uma gravadora enfrenta o desafio de lançar um novo artista no cenário musical global. Ela tem um extenso conjunto de dados do Spotify com informações sobre as músicas lançadas de 1930 a 2023.  
+A gravadora levantou uma série de hipóteses sobre o que faz uma música ser a mais ouvida. Essas hipóteses incluem:  
  - Músicas com BPM (Batidas Por Minuto) mais altos fazem mais sucesso em termos de número de streams no Spotify;
  - As músicas mais populares no ranking do Spotify também possuem um comportamento semelhante em outras plataformas, como a Deezer;
  - A presença de uma música em um maior número de playlists está correlacionada com um maior número de streams;
