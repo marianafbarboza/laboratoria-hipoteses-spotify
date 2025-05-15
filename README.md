@@ -333,7 +333,7 @@ Assim como, anuais:
 
 
 #### 4.2.6 Análise da amostra em quartis
-Utilizamos o BigQuery para calcular os quartis, considerando as variáveis: streams, bpm, dançabilidade, valência e energia, compilados e categorizados na seguinte consulta:
+Foi utilizado o BigQuery para calcular os quartis, considerando as variáveis: streams, bpm, dançabilidade, valência e energia, compilados e categorizados na seguinte consulta:
 
 ```
 
@@ -417,7 +417,7 @@ SELECT * FROM final;
 ```
 
 #### 4.2.7 Correlação entre variáveis
-Realizamos a correlação entre as seguintes variáveis:
+Optou-se por realizar a correlação entre as seguintes variáveis:
 - streams e total de playlists;
 - bpm e streams;
 - dançabilidade e streams;
@@ -439,7 +439,7 @@ FROM `projeto-spotify-457320.dadoshistoricos.view-tab-auxiliar`
 
 ```
 
-Para verificar a correlação de total de músicas por artista x streams, realizamos o cálculo em um tabela auxiliar:
+Para verificar a correlação de total de músicas por artista x streams, foi utilizado o cálculo em um tabela auxiliar:
 
 ```
 
@@ -460,7 +460,7 @@ FROM
 
 ```
 
-Para analisar tais valores, consideramos o conceito de correlação de Pearson, e a seguinte escala para os valores encontrados:
+Para analisar tais valores, considerou-se o conceito de correlação de Pearson, e a seguinte escala para os valores encontrados:
 
 |      Valor de correlação (r)        |      Correlação          |
 |-------------------------------------|--------------------------|
@@ -562,7 +562,7 @@ FROM
 ```
 
 O cálculo de correlação entre o número total de músicas de um artista e os streams considerando o coeficiente de Pearson, apresentou valor de 0,77640. O que indica uma correlação positiva e forte.
-Para realizar o gráfico de dispersão e correlacionar o número de músicas agrupado por um artista, e relacionar com o número de streams, realizamos a criação de uma tabela Agregada no Power BI, com a seguinte fórmula DAX:
+Para realizar o gráfico de dispersão e correlacionar o número de músicas agrupado por um artista, e relacionar com o número de streams, realizou-se a criação de uma tabela Agregada no Power BI, com a seguinte fórmula DAX:
 
 ```
 
