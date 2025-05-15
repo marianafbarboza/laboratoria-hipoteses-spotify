@@ -518,19 +518,19 @@ Neste ponto foi realizada a análise, por meio de tabelas, da relação entre as
 ##### 5.2 Validação de Hipóteses
 Calculando-se a correlação das variáveis de cada hipótese do estudo, iremos visualizar e analisar de forma mais clara, se existe ou não correlação e se a hipótese será confirmada ou refutada, baseando-se na amostra de dados analisada.
 
-###HIPÓTESE 1 - Músicas com BPM (Batidas por Minuto) mais altos fazem mais sucesso em termos de streams no Spotify
+### HIPÓTESE 1 - Músicas com BPM (Batidas por Minuto) mais altos fazem mais sucesso em termos de streams no Spotify
 O cálculo de correlação entre BPM e streams, considerando o coeficiente de Pearson, apresentou valor de -0,00323. Isso indica ausência de correlação linear entre as variáveis. Para confirmar isso, de forma mais visual e robusta, construímos um gráfico de dispersão, considerando os valores de streams e bpm, e adicionando uma linha de tendência (em vermelho), que evidencia o fato de não haver relação entre as duas variáveis.
 Sendo assim, a hipótese 1 foi refutada!
 
 ![HIP1](https://github.com/user-attachments/assets/fa62bec1-72c1-40cc-820e-c9d27983ae36)
 
-###HIPÓTESE 2 - As músicas mais populares no ranking do Spotify também possuem um comportamento semelhante em outras plataformas como Deezer
+### HIPÓTESE 2 - As músicas mais populares no ranking do Spotify também possuem um comportamento semelhante em outras plataformas como Deezer
 O cálculo de correlação entre in_spotify_charts e in_deezer_charts considerando o coeficiente de Pearson, apresentou valor de 0,60803. O que indica uma correlação positiva e moderada, ou seja, não é uma correlação perfeita, mas quando uma aumenta a outra tende a aumentar também.
 O gráfico de dispersão confirma a hipótese 2, portanto, com a linha de tendência indicando tal correlação:
 
 ![HIP2](https://github.com/user-attachments/assets/82c75532-40b2-4281-9a75-344b44b21393)
 
-###HIPÓTESE 3 - A presença de uma música em um maior número de playlists está correlacionada com um maior número de streams
+### HIPÓTESE 3 - A presença de uma música em um maior número de playlists está correlacionada com um maior número de streams
 O cálculo de correlação entre a presença em playlists (considerando a soma de Spotify, Deezer e Apple Music) e streams considerando o coeficiente de Pearson, apresentou valor de 0,78371. O que indica uma correlação positiva e forte, ou seja, também não é uma correlação perfeita, mas quando uma aumenta a outra tende fortemente a aumentar, confirmado pelo gráfico de dispersão construído. A hipótese 3 foi, portanto, confirmada.
 
 ![HIP3](https://github.com/user-attachments/assets/3e4e1a2b-4015-4dab-8b1e-ff4dd0c91610)
@@ -538,7 +538,7 @@ O cálculo de correlação entre a presença em playlists (considerando a soma d
 Destaca-se que nesse ponto da análise, optamos pela criação de uma nova medida no Power BI “total_playlists”, somando as variáveis de playlists de Apple Music, Deezer e Spotify.
 
 
-###HIPÓTESE 4 - Artistas com um maior número de músicas no Spotify têm mais streams
+### HIPÓTESE 4 - Artistas com um maior número de músicas no Spotify têm mais streams
 Para validar esta hipótese foi criada uma view auxiliar no BigQuery, contando o número total de faixas, agrupado por artista e só então, realizado o cálculo de correlação, considerando o total de faixas por artista e o total de streams.
 
 ```
@@ -584,7 +584,7 @@ Só então, correlacionando as variáveis número de faixas e total de streams, 
 ![HIP4](https://github.com/user-attachments/assets/e5fad6b0-3ec0-40be-beff-24683f88a3eb)
 
 
-###HIPÓTESE 5 - As características da música influenciam o sucesso em termos de número de streams no Spotify
+### HIPÓTESE 5 - As características da música influenciam o sucesso em termos de número de streams no Spotify
 Neste ponto, iremos analisar as características de música selecionadas anteriormente (bpm, dançabilidade, valência e energia), realizando um gráfico de dispersão para cada característica.
 Como já descrito anteriormente os coeficientes de correlação foram: -0,00323 (bpm), -0,10557 (dançabilidade), -0,04153 (valência), -0,02543 (energia). Portanto, todos são negativos e muito fracos. 
 O valor negativo indica que a medida que uma variável aumenta a outra tende a diminuir, no entanto, aqui a correlação é praticamente nula, por se tratarem de valores muito próximos a zero.
