@@ -1,4 +1,4 @@
-# Detalhamento de consultas utilizadas no projeto (BigQuery)
+# Detalhamento de consultas utilizadas no Projeto
 
 Aqui estão descritas algumas das queries utilizadas ao longo do projeto, para processamento e preparação dos dados.
 Os títulos fazem referência as etapas disponíveis no [README.md](README.md), para melhor identificação do processo realizado.
