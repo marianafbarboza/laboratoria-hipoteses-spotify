@@ -72,7 +72,7 @@ Identificou-se que as variáveis categóricas "track_name" e "artist_name" da ta
 Neste ponto do projeto, optou-se pela criação de uma nova variável "data_de_lançamento", concatenando as variáveis: released_year, released_month, released_day. 
 
 #### 4.1.7 Unir tabelas
-A fim de criar uma tabela única, para facilitar a análise dos dados, criou-se Views com os dados "limpos" de todas as tabelas. Considerando aqui, a vantagem de não armazenar os dados, apenas salvar a consulta, sendo mais rápido de executar e tendo um menor custo para armazenamento. O detalhamento desta etapa consta no 
+A fim de criar uma tabela única, para facilitar a análise dos dados, criou-se Views com os dados "limpos" de todas as tabelas. Considerando aqui, a vantagem de não armazenar os dados, apenas salvar a consulta, sendo mais rápido de executar e tendo um menor custo para armazenamento. O detalhamento desta etapa consta no [arquivo](BigQuery.md).
 
 
 ### 4.2 Análise exploratória
@@ -92,168 +92,23 @@ Analisando, por exemplo, os tops 10 artistas em playlists do Spotify, Deezer e A
 ![barras1](https://github.com/user-attachments/assets/9e30784a-0a1b-4458-8018-eedea83ca502)
 
 
-Assim como, o total de streams por artista (top 10):
-
-![barras2](https://github.com/user-attachments/assets/362dba14-b408-4e28-954d-19629e157790)
-
-
-E o total de músicas lançadas mensalmente, no período analisado:
-
-![barras3](https://github.com/user-attachments/assets/43515ffe-40d5-47cf-90c2-2dedc7d53117)
-
-
 #### 4.2.2 Medidas de Tendência Central
-Para compreender melhor o conjunto de dados, calculou-se médias e medianas das variáveis BPM e streams. Quanto a BPM, pode-se observar que sua média e mediana, na amostra analisada, apresentam valores bastante próximos:
-
-|      soma_BPM        |      media_BPM      |  mediana_BPM  |
-|----------------------|---------------------|---------------|
-| 115491               | 122,47              | 121,00        |
-
-
-Já para a variável streams, média e mediana possuem valores muito distintos:
-
-|      soma_streams    |      media_streams      |  mediana_streams  |
-|----------------------|-------------------------|-------------------|
-| 485404921248         | 512400128,44            | 287239934         |
+Para compreender melhor o conjunto de dados, calculou-se médias e medianas das variáveis BPM e streams. 
 
 
 #### 4.2.3 Distribuição dos dados através de histograma
 Como os gráficos de histograma não estão disponíveis no pacote normal do Power BI, realizamos a instalação de Python, afim de utilizar as histogramas para uma visualização mais robusta da distribuição de nossa amostra em alguns aspectos, como streams, BPM e presença em playlist do Spotify.
-Para gerar os histogramas utilizando Python, inserimos o seguinte código:
-
-```
-import matplotlib.pyplot as plt
-import pandas as pd
-
-# Obtenha os dados do Power BI - você só preciso alterar essas informações de todo o code
-data = dataset[['variável']]
-
-# Crie o histograma
-plt.hist(data, bins=10, color='blue', alpha=0.7)
-plt.xlabel('Value' )
-plt.ylabel('Frequency')
-plt .title('Histogram')
-
-# Mostre o histogram
-plt.show()
-
-```
-
-Para analisar as diferentes variáveis, basta substituir o campo 'variável' pelo que deseja analisar.
-Aqui foram analisadas as variáveis streams, bpm, in_spotify_playlists e in_spotify_charts:
-
-
-![histograma1](https://github.com/user-attachments/assets/ebac27a8-c1d3-49d7-84cf-2f6875f6d364)
-
-
-![histograma2](https://github.com/user-attachments/assets/e91c573a-f2da-4c76-8607-5d0cba51015b)
 
 
 #### 4.2.4 Medidas de Dispersão
 Optou-se por analisar o desvio padrão das mesmas variáveis analisadas nos passos anteriores: BPM e streams.
-|      desvio_padrao_BPM        |      desvio_padrao_streams      |
-|-------------------------------|---------------------------------|
-| 28,05                         | 568568151,36                    | 
-
-O desvio padrão de BPM possui um valor considerado baixo, demonstrando que a amostra possui muitos valores próximos a média, portanto, com menor variação dos valores. Informação confirmada ao analisar o histograma já apresentado.
-Quanto ao desvio padrão de streams, o mesmo possui um valor alto, demonstrando dados mais dispersos, e relação a média. E, portanto, maior variação dos mesmos, como evidenciado no histograma em que observa-se algumas faixas com frequência bem alta e outras, quase inexistentes.
 
 
-#### 4.2.5 Comportamento de variáveis ao longo do tempo
-Neste ponto, as variáveis streams e quantidade de músicas lançadas foram analisadas, quanto ao seu comportamento ao longo do tempo. As análises foram realizadas considerando os valores mensais, do período analisado:
-
-![mes](https://github.com/user-attachments/assets/9d82ede3-bcfd-4173-a983-8cb58d47258d)
+#### 4.2.5 Análise da amostra em quartis
+Foi utilizado o BigQuery para calcular os quartis, considerando as variáveis: streams, bpm, dançabilidade, valência e energia, compilados e categorizados na seguinte [consulta](BigQuery.md).
 
 
-Assim como, anuais:
-![ano](https://github.com/user-attachments/assets/61bdfcff-4b00-4f77-b0bb-10770e6f5375)
-
-
-#### 4.2.6 Análise da amostra em quartis
-Foi utilizado o BigQuery para calcular os quartis, considerando as variáveis: streams, bpm, dançabilidade, valência e energia, compilados e categorizados na seguinte consulta:
-
-```
-
-WITH
-  Quartis AS (
-  SELECT
-    *,
-
-   PERCENTILE_CONT(streams_limpo, 0.25) OVER() AS q1_streams,
-   PERCENTILE_CONT(streams_limpo, 0.50) OVER() AS q2_streams,
-   PERCENTILE_CONT(streams_limpo, 0.75) OVER() AS q3_streams,
-
-   PERCENTILE_CONT(bpm, 0.25) OVER() AS q1_bpm,
-   PERCENTILE_CONT(bpm, 0.50) OVER() AS q2_bpm,
-   PERCENTILE_CONT(bpm, 0.75) OVER() AS q3_bpm,
-   
-   PERCENTILE_CONT(`danceability_%`, 0.25) OVER() AS q1_dance,
-   PERCENTILE_CONT(`danceability_%`, 0.50) OVER() AS q2_dance,
-   PERCENTILE_CONT(`danceability_%`, 0.75) OVER() AS q3_dance,
-
-   PERCENTILE_CONT(`valence_%`, 0.25) OVER() AS q1_valence,
-   PERCENTILE_CONT(`valence_%`, 0.50) OVER() AS q2_valence,
-   PERCENTILE_CONT(`valence_%`, 0.75) OVER() AS q3_valence,
-
-   PERCENTILE_CONT(`energy_%`, 0.25) OVER() AS q1_energy,
-   PERCENTILE_CONT(`energy_%`, 0.50) OVER() AS q2_energy,
-   PERCENTILE_CONT(`energy_%`, 0.75) OVER() AS q3_energy
-   
- 
-  FROM
-    `projeto-spotify-457320.dadoshistoricos.view-tab-unica` ),
-
-final AS (
-  SELECT
-  *,
-  -- streams categorias
-    CASE
-      WHEN streams_limpo <= q1_streams THEN 'Baixa Popularidade'
-      WHEN streams_limpo <= q2_streams THEN 'Pouco Popular'
-      WHEN streams_limpo <= q3_streams THEN 'Popular'
-      ELSE 'Muito Popular'
-    END AS streams_categoria,
-
-  -- BPM categorias
-    CASE
-      WHEN bpm <= q1_bpm THEN 'Lento'
-      WHEN bpm <= q2_bpm THEN 'Moderado'
-      WHEN bpm <= q3_bpm THEN 'Rápido'
-      ELSE 'Muito rápido'
-    END AS bpm_categoria,
-
-    -- Danceability categorias
-    CASE
-      WHEN `danceability_%` <= q1_dance THEN 'Pouco dançante'
-      WHEN `danceability_%` <= q2_dance THEN 'Moderada'
-      WHEN `danceability_%` <= q3_dance THEN 'Bem dançante'
-      ELSE 'Muito dançante'
-    END AS dance_categoria,
-
-    -- Valence categorias
-    CASE
-      WHEN `valence_%` <= q1_valence THEN 'Muito Negativa'
-      WHEN `valence_%` <= q2_valence THEN 'Levemente Negativa'
-      WHEN `valence_%` <= q3_valence THEN 'Levemente Positiva'
-      ELSE 'Muito Positiva'
-    END AS valence_categoria,
-
-    -- Energy categorias
-    CASE
-      WHEN `energy_%` <= q1_energy THEN 'Baixa Energia'
-      WHEN `energy_%` <= q2_energy THEN 'Energia Moderada'
-      WHEN `energy_%` <= q3_energy THEN 'Alta Energia'
-      ELSE 'Energia Muito Alta'
-    END AS energy_categoria
-
-  FROM Quartis
-)
-
-SELECT * FROM final;
-
-```
-
-#### 4.2.7 Correlação entre variáveis
+#### 4.2.6 Correlação entre variáveis
 Optou-se por realizar a correlação entre as seguintes variáveis:
 - streams e total de playlists;
 - bpm e streams;
@@ -261,41 +116,6 @@ Optou-se por realizar a correlação entre as seguintes variáveis:
 - valência e streams;
 - energia e streams;
 - presença da música nas paradas do Spotify e do Deezer;
-
-Através de uma consulta no BigQuery:
-```
-
-SELECT
-CORR(streams_limpo,in_spotify_playlists+in_apple_playlists+in_deezer_playlists) AS correlacao_streams_playlists,
-CORR(bpm, streams_limpo) AS correlacao_bpm_streams,
-CORR(`danceability_%`, streams_limpo) AS correlacao_danceability_streams,
-CORR(`valence_%`, streams_limpo) AS correlacao_valence_streams,
-CORR(`energy_%`, streams_limpo) AS correlacao_energy_streams,
-CORR(in_spotify_charts, in_deezer_charts) AS correlacao_spotify_deezer,
-FROM `projeto-spotify-457320.dadoshistoricos.view-tab-auxiliar`
-
-```
-
-Para verificar a correlação de total de músicas por artista x streams, foi utilizado o cálculo em um tabela auxiliar:
-
-```
-
-WITH
-  artistas_stats AS (
-  SELECT
-    artist_name_limpo,
-    COUNT(DISTINCT track_name_limpo) AS num_faixas,
-    SUM(streams_limpo) AS total_streams
-  FROM
-    `projeto-spotify-457320.dadoshistoricos.view-tab-auxiliar`
-  GROUP BY
-    artist_name_limpo )
-SELECT
-  CORR(artistas_stats.num_faixas, artistas_stats.total_streams) AS correlacao_faixas_streams
-FROM
-  artistas_stats
-
-```
 
 Para analisar tais valores, considerou-se o conceito de correlação de Pearson, e a seguinte escala para os valores encontrados:
 
@@ -307,10 +127,6 @@ Para analisar tais valores, considerou-se o conceito de correlação de Pearson,
 | 0,5 a 0,7                           | Moderada a Forte         | 
 | 0,7 a 0,9                           | Forte                    | 
 | 0,9 a 1,0                           | Muito Forte ou Perfeita  | 
-
-Sendo assim, observa-se que as correlações entre bpm e streams é ausente (zero), assim como para as características de músicas (valência e energia), todas com valores próximos a zero.
-A correlação dançabilidade/streams é -0.10 indicando uma correlação negativa e fraca. Enquanto a correlação streams/total_playlists é positiva, em 0,78 e a correlação entre músicas populares no spotify/deezer também possui correlação moderada a forte(0,60).
-
 
 
 ### 5. Aplicar técnica de análise
@@ -377,55 +193,15 @@ Destaca-se que nesse ponto da análise, optamos pela criação de uma nova medid
 
 
 ### HIPÓTESE 4 - Artistas com um maior número de músicas no Spotify têm mais streams
-Para validar esta hipótese foi criada uma view auxiliar no BigQuery, contando o número total de faixas, agrupado por artista e só então, realizado o cálculo de correlação, considerando o total de faixas por artista e o total de streams.
-
-```
-
-WITH
-  artistas_stats AS (
-  SELECT
-    artist_name_limpo,
-    COUNT(DISTINCT track_name_limpo) AS num_faixas,
-    SUM(streams_limpo) AS total_streams
-  FROM
-    `projeto-spotify-457320.dadoshistoricos.view-tab-auxiliar`
-  GROUP BY
-    artist_name_limpo )
-SELECT
-  CORR(artistas_stats.num_faixas, artistas_stats.total_streams) AS correlacao_faixas_streams
-FROM
-  artistas_stats
-
-```
-
-O cálculo de correlação entre o número total de músicas de um artista e os streams considerando o coeficiente de Pearson, apresentou valor de 0,77640. O que indica uma correlação positiva e forte.
-Para realizar o gráfico de dispersão e correlacionar o número de músicas agrupado por um artista, e relacionar com o número de streams, realizou-se a criação de uma tabela Agregada no Power BI, com a seguinte fórmula DAX:
-
-```
-
-ArtistaResumo =
-ADDCOLUMNS(
-    SUMMARIZE('view-tab-auxiliar','view-tab-auxiliar'[artist_name_limpo]),
-    "NumFaixas", COUNTROWS(FILTER('view-tab-auxiliar','view-tab-auxiliar'[artist_name_limpo] = EARLIER('view-tab-auxiliar'[artist_name_limpo]))),
-    "TotalStreams", CALCULATE(SUM('view-tab-auxiliar'[streams_limpo])))
-
-```
-
-O processo basicamente cria uma nova tabela com três colunas, para resumir os dados por artista. O passo a passo consiste basicamente em:
-SUMMARIZE - gera uma lista única de artistas;
-ADDCOLUMNS - adiciona as colunas agregadas;
-COUNTROWS(FILTER) - vai realizar a contagem de linhas por artista;
-CALCULATE(SUM) - soma o total de streams por artista;
-
-Só então, correlacionando as variáveis número de faixas e total de streams, temos o gráfico de dispersão, evidenciando a forte correlação e demonstrando que quando uma variável aumenta a outra tende a aumentar. Portanto, a hipótese 4 foi confirmada!
+Para validar esta hipótese foi criada uma view auxiliar no [BigQuery](BigQuery.md).
+O cálculo de correlação entre o número total de músicas de um artista e os streams considerando o coeficiente de Pearson, apresentou valor de 0,77640. O que indica uma correlação positiva e forte. Portanto, a hipótese 4 foi confirmada!
 
 ![HIP4](https://github.com/user-attachments/assets/e5fad6b0-3ec0-40be-beff-24683f88a3eb)
 
 
 ### HIPÓTESE 5 - As características da música influenciam o sucesso em termos de número de streams no Spotify
 Neste ponto, iremos analisar as características de música selecionadas anteriormente (bpm, dançabilidade, valência e energia), realizando um gráfico de dispersão para cada característica.
-Como já descrito anteriormente os coeficientes de correlação foram: -0,00323 (bpm), -0,10557 (dançabilidade), -0,04153 (valência), -0,02543 (energia). Portanto, todos são negativos e muito fracos. 
-O valor negativo indica que a medida que uma variável aumenta a outra tende a diminuir, no entanto, aqui a correlação é praticamente nula, por se tratarem de valores muito próximos a zero.
+Os coeficientes de correlação foram: -0,00323 (bpm), -0,10557 (dançabilidade), -0,04153 (valência), -0,02543 (energia). Portanto, todos são negativos e muito fracos. O valor negativo indica que a medida que uma variável aumenta a outra tende a diminuir, no entanto, aqui a correlação é praticamente nula, por se tratarem de valores muito próximos a zero.
 
 Foram construídos os gráficos para cada uma das variáveis, para verificar o comportamento em cada um dos casos:
 
