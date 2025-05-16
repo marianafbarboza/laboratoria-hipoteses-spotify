@@ -1,5 +1,7 @@
+# Detalhamento de consultas utilizadas no projeto (BigQuery)
+
 Aqui estão descritas algumas das queries utilizadas ao longo do projeto, para processamento e preparação dos dados.
-Os títulos fazem referência as etapas disponíveis no README.md, para melhor identificação do processo realizado.
+Os títulos fazem referência as etapas disponíveis no [README.md](README.md), para melhor identificação do processo realizado.
 
 #### 4.1.3 Valores Duplicados
 Para o tratamento dos valores duplicados, foram identificados, através do track_name, os track_ids das músicas duplicadas e realizou-se uma análise visual das informações de cada track_id. Foi verificado que há muitas informações divergentes das músicas duplicadas nas 03 tabelas, incluindo detalhes mais técnicos das mesmas. Sendo assim, considerou-se que a informação desses track_ids não é confiável e considerando que os 08 registros representam menos de 1% da amostra, foram considerados irrelevantes na presente análise e, portanto, excluídos através da utilização de `NOT IN` na nossa query:
@@ -130,4 +132,196 @@ LEFT JOIN `projeto-spotify-457320.dadoshistoricos.view-technical-info` AS t
 
 ```
 
+#### 4.2.3 Distribuição dos dados através de histograma
+Para gerar os histogramas utilizando Python, inserimos o seguinte código:
+
+```
+import matplotlib.pyplot as plt
+import pandas as pd
+
+# Obtenha os dados do Power BI - você só preciso alterar essas informações de todo o code
+data = dataset[['variável']]
+
+# Crie o histograma
+plt.hist(data, bins=10, color='blue', alpha=0.7)
+plt.xlabel('Value' )
+plt.ylabel('Frequency')
+plt .title('Histogram')
+
+# Mostre o histogram
+plt.show()
+
+```
+
+Para analisar as diferentes variáveis, basta substituir o campo 'variável' pelo que deseja analisar.
+Aqui foram analisadas as variáveis streams, bpm, in_spotify_playlists e in_spotify_charts:
+
+
+![histograma1](https://github.com/user-attachments/assets/ebac27a8-c1d3-49d7-84cf-2f6875f6d364)
+
+
+![histograma2](https://github.com/user-attachments/assets/e91c573a-f2da-4c76-8607-5d0cba51015b)
+
+
+#### 4.2.5 Análise da amostra em quartis
+A consulta utilizada para categorização:
+
+```
+
+WITH
+  Quartis AS (
+  SELECT
+    *,
+
+   PERCENTILE_CONT(streams_limpo, 0.25) OVER() AS q1_streams,
+   PERCENTILE_CONT(streams_limpo, 0.50) OVER() AS q2_streams,
+   PERCENTILE_CONT(streams_limpo, 0.75) OVER() AS q3_streams,
+
+   PERCENTILE_CONT(bpm, 0.25) OVER() AS q1_bpm,
+   PERCENTILE_CONT(bpm, 0.50) OVER() AS q2_bpm,
+   PERCENTILE_CONT(bpm, 0.75) OVER() AS q3_bpm,
+   
+   PERCENTILE_CONT(`danceability_%`, 0.25) OVER() AS q1_dance,
+   PERCENTILE_CONT(`danceability_%`, 0.50) OVER() AS q2_dance,
+   PERCENTILE_CONT(`danceability_%`, 0.75) OVER() AS q3_dance,
+
+   PERCENTILE_CONT(`valence_%`, 0.25) OVER() AS q1_valence,
+   PERCENTILE_CONT(`valence_%`, 0.50) OVER() AS q2_valence,
+   PERCENTILE_CONT(`valence_%`, 0.75) OVER() AS q3_valence,
+
+   PERCENTILE_CONT(`energy_%`, 0.25) OVER() AS q1_energy,
+   PERCENTILE_CONT(`energy_%`, 0.50) OVER() AS q2_energy,
+   PERCENTILE_CONT(`energy_%`, 0.75) OVER() AS q3_energy
+   
+ 
+  FROM
+    `projeto-spotify-457320.dadoshistoricos.view-tab-unica` ),
+
+  final AS (
+  SELECT
+  *,
+  -- streams categorias
+    CASE
+      WHEN streams_limpo <= q1_streams THEN 'Baixa Popularidade'
+      WHEN streams_limpo <= q2_streams THEN 'Pouco Popular'
+      WHEN streams_limpo <= q3_streams THEN 'Popular'
+      ELSE 'Muito Popular'
+    END AS streams_categoria,
+
+  -- BPM categorias
+    CASE
+      WHEN bpm <= q1_bpm THEN 'Lento'
+      WHEN bpm <= q2_bpm THEN 'Moderado'
+      WHEN bpm <= q3_bpm THEN 'Rápido'
+      ELSE 'Muito rápido'
+    END AS bpm_categoria,
+
+  -- Danceability categorias
+    CASE
+      WHEN `danceability_%` <= q1_dance THEN 'Pouco dançante'
+      WHEN `danceability_%` <= q2_dance THEN 'Moderada'
+      WHEN `danceability_%` <= q3_dance THEN 'Bem dançante'
+      ELSE 'Muito dançante'
+    END AS dance_categoria,
+
+  -- Valence categorias
+    CASE
+      WHEN `valence_%` <= q1_valence THEN 'Muito Negativa'
+      WHEN `valence_%` <= q2_valence THEN 'Levemente Negativa'
+      WHEN `valence_%` <= q3_valence THEN 'Levemente Positiva'
+      ELSE 'Muito Positiva'
+    END AS valence_categoria,
+
+  -- Energy categorias
+    CASE
+      WHEN `energy_%` <= q1_energy THEN 'Baixa Energia'
+      WHEN `energy_%` <= q2_energy THEN 'Energia Moderada'
+      WHEN `energy_%` <= q3_energy THEN 'Alta Energia'
+      ELSE 'Energia Muito Alta'
+    END AS energy_categoria
+
+  FROM Quartis
+)
+
+SELECT * FROM final;
+
+```
+
+
+#### 4.2.6 Correlação entre variáveis
+A análise foi realizada através da seguinte consulta:
+
+```
+
+SELECT
+CORR(streams_limpo,in_spotify_playlists+in_apple_playlists+in_deezer_playlists) AS correlacao_streams_playlists,
+CORR(bpm, streams_limpo) AS correlacao_bpm_streams,
+CORR(`danceability_%`, streams_limpo) AS correlacao_danceability_streams,
+CORR(`valence_%`, streams_limpo) AS correlacao_valence_streams,
+CORR(`energy_%`, streams_limpo) AS correlacao_energy_streams,
+CORR(in_spotify_charts, in_deezer_charts) AS correlacao_spotify_deezer,
+FROM `projeto-spotify-457320.dadoshistoricos.view-tab-auxiliar`
+
+```
+
+Para verificar a correlação de total de músicas por artista x streams, foi utilizado o cálculo em um tabela auxiliar:
+
+```
+
+WITH
+  artistas_stats AS (
+  SELECT
+    artist_name_limpo,
+    COUNT(DISTINCT track_name_limpo) AS num_faixas,
+    SUM(streams_limpo) AS total_streams
+  FROM
+    `projeto-spotify-457320.dadoshistoricos.view-tab-auxiliar`
+  GROUP BY
+    artist_name_limpo )
+SELECT
+  CORR(artistas_stats.num_faixas, artistas_stats.total_streams) AS correlacao_faixas_streams
+FROM
+  artistas_stats
+
+```
+
+##### 5.1 Segmentação
+A análise da Hipótese 4, envolveu a criação de uma view auxiliar, contando o número total de faixas, agrupado por artista e só então, realizado o cálculo de correlação, considerando o total de faixas por artista e o total de streams.
+
+```
+
+WITH
+  artistas_stats AS (
+  SELECT
+    artist_name_limpo,
+    COUNT(DISTINCT track_name_limpo) AS num_faixas,
+    SUM(streams_limpo) AS total_streams
+  FROM
+    `projeto-spotify-457320.dadoshistoricos.view-tab-auxiliar`
+  GROUP BY
+    artist_name_limpo )
+SELECT
+  CORR(artistas_stats.num_faixas, artistas_stats.total_streams) AS correlacao_faixas_streams
+FROM
+  artistas_stats
+
+```
+
+Para realizar o gráfico de dispersão e correlacionar o número de músicas agrupado por um artista, e relacionar com o número de streams, realizou-se a criação de uma tabela Agregada no Power BI, com a seguinte fórmula DAX:
+
+```
+
+ArtistaResumo =
+ADDCOLUMNS(
+    SUMMARIZE('view-tab-auxiliar','view-tab-auxiliar'[artist_name_limpo]),
+    "NumFaixas", COUNTROWS(FILTER('view-tab-auxiliar','view-tab-auxiliar'[artist_name_limpo] = EARLIER('view-tab-auxiliar'[artist_name_limpo]))),
+    "TotalStreams", CALCULATE(SUM('view-tab-auxiliar'[streams_limpo])))
+
+```
+
+O processo basicamente cria uma nova tabela com três colunas, para resumir os dados por artista. O passo a passo consiste basicamente em:
+SUMMARIZE - gera uma lista única de artistas;
+ADDCOLUMNS - adiciona as colunas agregadas;
+COUNTROWS(FILTER) - vai realizar a contagem de linhas por artista;
+CALCULATE(SUM) - soma o total de streams por artista;
 
