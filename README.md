@@ -65,14 +65,14 @@ Considerando alguns estudos que apontam 03 variáveis mais relevantes no sucesso
 
 
 #### 4.1.5 Identificação e Tratamento de Dados Discrepantes
-Identificou-se que as variáveis categóricas "track_name" e "artist_name" da tabela spotify possuem caracteres especiais e letras maiúsculas, o tratamento realizado no BigQuery está [aqui](BigQuery.md).
+Identificou-se que as variáveis categóricas "track_name" e "artist_name" da tabela spotify possuem caracteres especiais e letras maiúsculas, o tratamento realizado no BigQuery está [aqui](Consultas.md).
 
 
 #### 4.1.6 Criação de Novas Variáveis
 Neste ponto do projeto, optou-se pela criação de uma nova variável "data_de_lançamento", concatenando as variáveis: released_year, released_month, released_day. 
 
 #### 4.1.7 Unir tabelas
-A fim de criar uma tabela única, para facilitar a análise dos dados, criou-se Views com os dados "limpos" de todas as tabelas. Considerando aqui, a vantagem de não armazenar os dados, apenas salvar a consulta, sendo mais rápido de executar e tendo um menor custo para armazenamento. O detalhamento desta etapa consta no [arquivo](BigQuery.md).
+A fim de criar uma tabela única, para facilitar a análise dos dados, criou-se Views com os dados "limpos" de todas as tabelas. Considerando aqui, a vantagem de não armazenar os dados, apenas salvar a consulta, sendo mais rápido de executar e tendo um menor custo para armazenamento. O detalhamento desta etapa consta no [arquivo](Consultas.md).
 
 
 ### 4.2 Análise exploratória
@@ -105,7 +105,7 @@ Optou-se por analisar o desvio padrão das mesmas variáveis analisadas nos pass
 
 
 #### 4.2.5 Análise da amostra em quartis
-Foi utilizado o BigQuery para calcular os quartis, considerando as variáveis: streams, bpm, dançabilidade, valência e energia, compilados e categorizados na seguinte [consulta](BigQuery.md).
+Foi utilizado o BigQuery para calcular os quartis, considerando as variáveis: streams, bpm, dançabilidade, valência e energia, compilados e categorizados na seguinte [consulta](Consultas.md).
 
 
 #### 4.2.6 Correlação entre variáveis
@@ -193,7 +193,7 @@ Destaca-se que nesse ponto da análise, optamos pela criação de uma nova medid
 
 
 ### HIPÓTESE 4 - Artistas com um maior número de músicas no Spotify têm mais streams
-Para validar esta hipótese foi criada uma view auxiliar no [BigQuery](BigQuery.md).
+Para validar esta hipótese foi criada uma view auxiliar no [BigQuery](Consultas.md).
 O cálculo de correlação entre o número total de músicas de um artista e os streams considerando o coeficiente de Pearson, apresentou valor de 0,77640. O que indica uma correlação positiva e forte. Portanto, a hipótese 4 foi confirmada!
 
 ![HIP4](https://github.com/user-attachments/assets/e5fad6b0-3ec0-40be-beff-24683f88a3eb)
