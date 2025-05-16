@@ -20,44 +20,8 @@ Sendo assim, o objetivo é analisar a base de dados para refutar ou confirmar ta
 
 
 # 3. Conjunto de dados (dataset) analisado
-O conjunto de dados está disponível no arquivo *spotify_2023.zip* deste projeto, que contém três arquivos CSV:
-
- ### track_in_spotify.csv
- Esse arquivo detalha a performance de cada música no Spotify. E contém as seguintes colunas:
- - track_id: Identificador exclusivo da música. É um número inteiro de 7 dígitos que não se repete;
- - track_name: Nome da música;
- - artist(s)_name: Nome do(s) artista(s) da música;
- - artist_count: Número de artistas que contribuíram na música;
- - released_year: Ano em que a música foi lançada;
- - released_month: Mês em que a música foi lançada;
- - released_day: Dia do mês em que a música foi lançada;
- - in_spotify_playlists: Número de listas de reprodução do Spotify em que a música está incluída;
- - in_spotify_charts: Presença e posição da música nas paradas do Spotify;
- - streams: Número total de streams no Spotify. Representa o número de vezes que a música foi ouvida;
-
- ### track_in_competition.csv
- Detalha o desempenho em outras plataformas (como Deezer ou Apple Music). Contém as colunas:
- - track_id: Identificador exclusivo da música. É um número inteiro de 7 dígitos que não se repete;
- - in_apple_playlists: número de listas de reprodução da Apple Music em que a música está incluída;
- - in_apple_charts: Presença e classificação da música nas paradas da Apple Music;
- - in_deezer_playlists: Número de playlists do Deezer em que a música está incluída;
- - in_deezer_charts: Presença e posição da música nas paradas da Deezer;
- - in_shazam_charts: Presença e classificação da música nas paradas da Shazam;
-
- ### track_technical_info.csv
- Traz as características das músicas, detalhando:
- - track_id: Identificador exclusivo da música. É um número inteiro de 7 dígitos que não se repete;
- - bpm: Batidas por minuto, uma medida do tempo da música;
- - key: Tom musical da música;
- - mode: Modo de música (maior ou menor);
- - danceability_%: Porcentagem que indica o quão apropriado a canção é para dançar;
- - valence_%: Positividade do conteúdo musical da música;
- - energy_%: Nível de energia percebido da música;
- - acusticness_%: Quantidade de som acústico na música;
- - instrumentality_%: Quantidade de conteúdo instrumental na música;
- - liveness_%: Presença de elementos de performance ao vivo;
- - speechiness_%: Quantidade de palavras faladas na música;
-
+O conjunto de dados está disponível no arquivo *spotify_2023.zip* deste projeto.
+A descrição de como estão organizadas as tabelas e variáveis que as compõe, podem ser verificadas [aqui](Dataset-organization.md).
 
 # 4. Escopo da análise de dados
 A análise consiste no desenvolvimento das seguintes habilidades:
@@ -70,17 +34,13 @@ A análise consiste no desenvolvimento das seguintes habilidades:
 
 ### 4.1 Processamento e preparação dos dados
 #### 4.1.1 Importação de Dados
-Como primeiro passo, foi realizada a identificação e tratamento de valores nulos encontrados. Nesse primeiro momento, optou-se por não excluir tais valores, uma vez que pode-se desconsiderá-los, caso necessário, com pequenas alterações nas consultas SQL realizadas.
-
+Como primeiro passo, foi realizada a identificação e tratamento de valores nulos encontrados. 
 
 #### 4.1.2 Valores Nulos
 Como primeiro passo, utilizando a função `SELECT COUNT (*)` foi realizada a identificação e tratamento de valores nulos, sendo encontrados os seguintes, em cada tabela:
 - Tabela competition: total de 953 registros, in_shazam_charts (50 nulos);
 - Tabela spotify: total de 953 registros, não encontrei nulos;
 - Tabela technical_info: 953 registros, key (95 nulos);
-
-Nesse primeiro momento, optou-se por não excluir tais valores, uma vez que pode-se desconsiderá-los, caso necessário, com pequenas alterações nas consultas SQL realizadas.
-
 
 #### 4.1.3 Valores Duplicados
 No segundo momento foi realizada a identificação de valores duplicados, foram encontrados 04 valores com track_name e track_id duplicados (com 02 registros cada):
@@ -91,20 +51,6 @@ No segundo momento foi realizada a identificação de valores duplicados, foram 
 | About Damn Time      | Lizzo                 | 2          |
 | Take My Breath       | The Weeknd            | 2          |
 | SPIT IN MY FACE!     | ThxSoMch              | 2          |
-
-
-Para o tratamento destes dados, foram identificados, através do track_name, os track_ids das músicas duplicadas e realizou-se uma análise visual das informações de cada track_id. Foi verificado que há muitas informações divergentes das músicas duplicadas nas 03 tabelas, incluindo detalhes mais técnicos das mesmas. Sendo assim, considerou-se que a informação desses track_ids não é confiável e considerando que os 08 registros representam menos de 1% da amostra, foram considerados irrelevantes na presente análise e, portanto, excluídos através da utilização de `NOT IN` na nossa query:
-
-```
-SELECT
-  *
-
-FROM `projeto-spotify-457320.dadoshistoricos.spotify`
-
-WHERE
-  track_id NOT IN ('7173596', '5080031', '5675634', '3814670',
-'1119309', '4586215', '4967469', '8173823')
-```
 
 
 #### 4.1.4 Dados fora do Escopo da Análise
@@ -119,122 +65,14 @@ Considerando alguns estudos que apontam 03 variáveis mais relevantes no sucesso
 
 
 #### 4.1.5 Identificação e Tratamento de Dados Discrepantes
-Identificou-se que as variáveis categóricas "track_name" e "artist_name" da tabela spotify possuem caracteres especiais e letras maiúsculas, sendo assim, foram utilizadas as funções `REGEXUP_REPLACE` e `LOWER` para tratar estes casos.
-- LOWER: converte todo o texto para letras minúsculas;
-- REGEXP_REPLACE(..., '[^\\x00-\\x7F]', ' '): identifica e substitui qualquer caractere não-ASCII (letras com acento, emojis e símbolos especiais) por um espaço;
-- REGEXP_REPLACE(..., '[^a-z0-9]', ' '): identifica e substitui qualquer coisa que não seja letra minúscula ou número por um espaço;
-
-Além disso, na variável numérica "streams" da tabela Spotify também encontrou-se valores inválidos, pois a variável está definida como tipo `STRING` e, por tratar-se de valores numéricos, deveria ser `INTEGER`. Sendo assim, optou-se por alterar o tipo de dado da variável, utilizando a seguinte função:
-
-```
-SELECT streams,
-
-SAFE_CAST(streams AS INT64) AS streams_limpo
-
-FROM `projeto-spotify-457320.dadoshistoricos.spotify`
-```
+Identificou-se que as variáveis categóricas "track_name" e "artist_name" da tabela spotify possuem caracteres especiais e letras maiúsculas, o tratamento realizado no BigQuery está [aqui](BigQuery.md).
 
 
 #### 4.1.6 Criação de Novas Variáveis
-Neste ponto do projeto, optou-se pela criação de uma nova variável "data_de_lançamento", concatenando as variáveis: released_year, released_month, released_day. Além disso, as mesmas estavam definidas como do tipo `INTEGER` e para concatenar, deve-se utilizar o formato `STRING`. 
-Para tal, foi utilizada a função `PARSE_DATE` que transforma a string formatada no tipo `DATE`, e o `FORMAT` para deixar utilizar o formato YYYY-MM-DD:
-
-```
-SELECT released_year, released_month, released_day
-
-PARSE_DATE('%Y-%m-%d', FORMAT('%04d-%02d-%02d', released_year, released_month, released_day)) AS data_de_lancamento
-
-FROM `projeto-spotify-457320.dadoshistoricos.spotify`
-
-```
-
+Neste ponto do projeto, optou-se pela criação de uma nova variável "data_de_lançamento", concatenando as variáveis: released_year, released_month, released_day. 
 
 #### 4.1.7 Unir tabelas
-A fim de criar uma tabela única, para facilitar a análise dos dados, criou-se Views com os dados "limpos" de todas as tabelas. Considerando aqui, a vantagem de não armazenar os dados, apenas salvar a consulta, sendo mais rápido de executar e tendo um menor custo para armazenamento.
-As views de cada tabela foram construídas por meio de consulta SQL, da seguinte maneira
-
-```
---VIEW COMPETITION
-
-SELECT
-  * EXCEPT (in_shazam_charts)
-FROM
-  `projeto-spotify-457320.dadoshistoricos.competition`
-WHERE
-  track_id NOT IN ('7173596', '5080031', '5675634', '3814670',
-'1119309', '4586215', '4967469', '8173823')
-
-
---VIEW TECHNICAL INFO
-
-SELECT
-  track_id, bpm, `danceability_%`, `valence_%`, `energy_%`
-FROM
-  `projeto-spotify-457320.dadoshistoricos.technical_info`
-WHERE
-  track_id NOT IN ('7173596', '5080031',     '5675634','3814670',
-'1119309', '4586215','4967469','8173823', '4061483')
-
-
---VIEW-SPOTIFY
-
-SELECT
-  track_id, artist_count,
-
---limpeza de variáveis track name e artist name
-  REGEXP_REPLACE( REGEXP_REPLACE(LOWER(track_name), '[^\\x00-\\x7F]', ' '), '[^a-z0-9]', ' ' ) AS track_name_limpo,
-  REGEXP_REPLACE(REGEXP_REPLACE(LOWER(artist_name), '[^\\x00-\\x7F]', ' '),'[^a-z0-9]', ' ' ) AS artist_name_limpo,
-
---data de lancamento (YYYY-MM-DD)
-PARSE_DATE('%Y-%m-%d', FORMAT('%04d-%02d-%02d', released_year, released_month, released_day)) AS data_de_lancamento,
-
-in_spotify_playlists, in_spotify_charts,
-
---tratamento de streams como INTEGER
-  SAFE_CAST(streams AS INT64) AS streams_limpo
-FROM
-  `projeto-spotify-457320.dadoshistoricos.spotify`
-
-WHERE
-track_id NOT IN ('7173596', '5080031', '5675634', '3814670',
- '1119309', '4586215', '4967469', '8173823', '4061483')
-
-```
-
-Agora com as views já filtrando os dados de interesse da análise, utilizou-se a função `LEFT JOIN` para unir as tabelas. Foram considerados os prefixos ".c", ".t" e ".s" para evitar ambiguidade se mais de uma tabela tiver uma coluna com o mesmo nome (track_id, por ex), facilitando a identificação das tabelas.
-Consulta utilizada para unir as tabelas
-
-```
-SELECT
---variáveis tabela spotify
-  s.track_id,
-  s.track_name_limpo,
-  s.artist_name_limpo,
-  s.artist_count,
-  s.data_de_lancamento,
-  s.in_spotify_playlists,
-  s.in_spotify_charts,
-  s.streams_limpo,
-
-  --variáveis tabela competition
-  c.in_apple_playlists,
-  c.in_apple_charts,
-  c.in_deezer_playlists,
-  c.in_deezer_charts,
- 
-  --variaveis tabela technical_info
-  t.bpm,
-  t.`danceability_%`,
-  t.`valence_%`,
-  t.`energy_%`
-FROM
-  `projeto-spotify-457320.dadoshistoricos.view-spotify` AS s
-LEFT JOIN `projeto-spotify-457320.dadoshistoricos.view-competition` AS c
-  ON s.track_id = c.track_id
-LEFT JOIN `projeto-spotify-457320.dadoshistoricos.view-technical-info` AS t
-  ON s.track_id = t.track_id
-
-```
+A fim de criar uma tabela única, para facilitar a análise dos dados, criou-se Views com os dados "limpos" de todas as tabelas. Considerando aqui, a vantagem de não armazenar os dados, apenas salvar a consulta, sendo mais rápido de executar e tendo um menor custo para armazenamento. O detalhamento desta etapa consta no 
 
 
 ### 4.2 Análise exploratória
