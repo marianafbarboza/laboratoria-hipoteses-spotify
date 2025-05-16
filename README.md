@@ -221,7 +221,7 @@ E por último, a importância de analisar o perfil do público alvo ou segmentos
 
 
 ### Links importantes
-Para conclusão do projeto os dados foram apresentados na seguinte [apresentação](https://docs.google.com/presentation/d/1eFTrlbDkLOaLhSrzxFSJO-1vQ9XC7LXtVg7mvsKzKB0/edit#slide=id.g357c14ae11d_0_429);
+Para conclusão do projeto os dados foram apresentados na seguinte [apresentação](Apresentacao.pdf);
 
 O vídeo de entrega com a apresentação do projeto, pode ser acessado [aqui](https://www.loom.com/share/3b6d4ddd7b574d589f96742a2dc28b68);
 
