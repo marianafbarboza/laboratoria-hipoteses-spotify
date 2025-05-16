@@ -33,16 +33,16 @@ A análise consiste no desenvolvimento das seguintes habilidades:
 
 
 ### 4.1 Processamento e preparação dos dados
-#### 4.1.1 Importação de Dados
+#### Importação de Dados
 Como primeiro passo, foi realizada a identificação e tratamento de valores nulos encontrados. 
 
-#### 4.1.2 Valores Nulos
+#### Valores Nulos
 Como primeiro passo, utilizando a função `SELECT COUNT (*)` foi realizada a identificação e tratamento de valores nulos, sendo encontrados os seguintes, em cada tabela:
 - Tabela competition: total de 953 registros, in_shazam_charts (50 nulos);
 - Tabela spotify: total de 953 registros, não encontrei nulos;
 - Tabela technical_info: 953 registros, key (95 nulos);
 
-#### 4.1.3 Valores Duplicados
+#### Valores Duplicados
 No segundo momento foi realizada a identificação de valores duplicados, foram encontrados 04 valores com track_name e track_id duplicados (com 02 registros cada):
 
 |      track_name      |      artist_name      |  contagem  |
@@ -53,7 +53,7 @@ No segundo momento foi realizada a identificação de valores duplicados, foram 
 | SPIT IN MY FACE!     | ThxSoMch              | 2          |
 
 
-#### 4.1.4 Dados fora do Escopo da Análise
+#### Dados fora do Escopo da Análise
 O escopo da análise envolve as hipóteses já detalhadas, sendo assim, optamos por manter a seguinte variável de cada tabela:
 - Tabela spotify: track_id, track_name, artist_name, artist_count, released_year, released_month, released_day, in_spotify_playlists, in_spotify_charts, streams;
 
@@ -64,14 +64,14 @@ A variável “in_shazam_charts” foi excluída pois não é uma plataforma tã
 Considerando alguns estudos que apontam 03 variáveis mais relevantes no sucesso de uma música, optou-se por mantê-los, além de track_id e bpm.
 
 
-#### 4.1.5 Identificação e Tratamento de Dados Discrepantes
+#### Identificação e Tratamento de Dados Discrepantes
 Identificou-se que as variáveis categóricas "track_name" e "artist_name" da tabela spotify possuem caracteres especiais e letras maiúsculas, o tratamento realizado no BigQuery está [aqui](Consultas.md).
 
 
-#### 4.1.6 Criação de Novas Variáveis
+#### Criação de Novas Variáveis
 Neste ponto do projeto, optou-se pela criação de uma nova variável "data_de_lançamento", concatenando as variáveis: released_year, released_month, released_day. 
 
-#### 4.1.7 Unir tabelas
+#### Unir tabelas
 A fim de criar uma tabela única, para facilitar a análise dos dados, criou-se Views com os dados "limpos" de todas as tabelas. Considerando aqui, a vantagem de não armazenar os dados, apenas salvar a consulta, sendo mais rápido de executar e tendo um menor custo para armazenamento. O detalhamento desta etapa consta no [arquivo](Consultas.md).
 
 
@@ -80,7 +80,7 @@ Por se tratar de uma fase fundamental na compreensão de dados, foram utilizados
 Já o BigQuery, ferramenta voltada para armazenamento e análise de dados, possibilita lidar com um grande volume de dados, com alto desempenho, fornecendo através das consultas, informações valiosas sobre o conjunto de dados.
 A ideia de combinar BigQuery e Power BI é exatamente extrair e transformar dados, para na sequência visualizar e explorar os mesmos com profundidade. Permitindo desvendar insights significativos, identificar relacionamentos entre variáveis e possibilitar uma melhor tomada de decisão. 
 
-#### 4.2.1 Variáveis Categóricas
+#### Variáveis Categóricas
 Nessa fase do projeto foram construídas algumas tabelas no Power BI, destacando algumas variáveis categóricas, para realizar uma primeira análise exploratória, analisando, por exemplo:
 - músicas e sua presença em playlists do spotify, assim como número total de streams;
 - artista, quantidade de músicas na base de dados e soma total de streams;
@@ -92,23 +92,23 @@ Analisando, por exemplo, os tops 10 artistas em playlists do Spotify, Deezer e A
 ![barras1](https://github.com/user-attachments/assets/9e30784a-0a1b-4458-8018-eedea83ca502)
 
 
-#### 4.2.2 Medidas de Tendência Central
+#### Medidas de Tendência Central
 Para compreender melhor o conjunto de dados, calculou-se médias e medianas das variáveis BPM e streams. 
 
 
-#### 4.2.3 Distribuição dos dados através de histograma
+#### Distribuição dos dados através de histograma
 Como os gráficos de histograma não estão disponíveis no pacote normal do Power BI, realizamos a instalação de Python, afim de utilizar as histogramas para uma visualização mais robusta da distribuição de nossa amostra em alguns aspectos, como streams, BPM e presença em playlist do Spotify.
 
 
-#### 4.2.4 Medidas de Dispersão
+#### Medidas de Dispersão
 Optou-se por analisar o desvio padrão das mesmas variáveis analisadas nos passos anteriores: BPM e streams.
 
 
-#### 4.2.5 Análise da amostra em quartis
+#### Análise da amostra em quartis
 Foi utilizado o BigQuery para calcular os quartis, considerando as variáveis: streams, bpm, dançabilidade, valência e energia, compilados e categorizados na seguinte [consulta](Consultas.md).
 
 
-#### 4.2.6 Correlação entre variáveis
+#### Correlação entre variáveis
 Optou-se por realizar a correlação entre as seguintes variáveis:
 - streams e total de playlists;
 - bpm e streams;
@@ -131,7 +131,7 @@ Para analisar tais valores, considerou-se o conceito de correlação de Pearson,
 
 ### 5. Aplicar técnica de análise
 
-##### 5.1 Segmentação
+##### Segmentação
 Neste ponto foi realizada a análise, por meio de tabelas, da relação entre as categorias das características musicais analisadas (bpm, dançabilidade, valência e energia) e a média de streams de cada uma.
 
 |      categorias BPM        |      Média de streams      |   
@@ -169,7 +169,7 @@ Neste ponto foi realizada a análise, por meio de tabelas, da relação entre as
 | Alta Energia                   | 491513171,95               | 
 
 
-##### 5.2 Validação de Hipóteses
+##### Validação de Hipóteses
 Calculando-se a correlação das variáveis de cada hipótese do estudo, iremos visualizar e analisar de forma mais clara, se existe ou não correlação e se a hipótese será confirmada ou refutada, baseando-se na amostra de dados analisada.
 
 ### HIPÓTESE 1 - Músicas com BPM (Batidas por Minuto) mais altos fazem mais sucesso em termos de streams no Spotify
