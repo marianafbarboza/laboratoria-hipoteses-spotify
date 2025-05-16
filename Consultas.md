@@ -3,7 +3,7 @@
 Aqui estão descritas algumas das queries utilizadas ao longo do projeto, para processamento e preparação dos dados.
 Os títulos fazem referência as etapas disponíveis no [README.md](README.md), para melhor identificação do processo realizado.
 
-#### 4.1.3 Valores Duplicados
+#### Valores Duplicados
 Para o tratamento dos valores duplicados, foram identificados, através do track_name, os track_ids das músicas duplicadas e realizou-se uma análise visual das informações de cada track_id. Foi verificado que há muitas informações divergentes das músicas duplicadas nas 03 tabelas, incluindo detalhes mais técnicos das mesmas. Sendo assim, considerou-se que a informação desses track_ids não é confiável e considerando que os 08 registros representam menos de 1% da amostra, foram considerados irrelevantes na presente análise e, portanto, excluídos através da utilização de `NOT IN` na nossa query:
 
 ```
@@ -17,7 +17,7 @@ WHERE
 '1119309', '4586215', '4967469', '8173823')
 ```
 
-#### 4.1.5 Identificação e Tratamento de Dados Discrepantes
+#### Identificação e Tratamento de Dados Discrepantes
 Para trataento de caracteres especiais foram utilizadas as funções `REGEXUP_REPLACE` e `LOWER` para tratar estes casos. 
 - LOWER: converte todo o texto para letras minúsculas;
 - REGEXP_REPLACE(..., '[^\\x00-\\x7F]', ' '): identifica e substitui qualquer caractere não-ASCII (letras com acento, emojis e símbolos especiais) por um espaço;
@@ -33,7 +33,7 @@ SAFE_CAST(streams AS INT64) AS streams_limpo
 FROM `projeto-spotify-457320.dadoshistoricos.spotify`
 ```
 
-#### 4.1.6 Criação de Novas Variáveis
+#### Criação de Novas Variáveis
 Além da adição de uma nova variável (data_de_lançaento), as variáveis de data estavam definidas como do tipo `INTEGER` e para concatenar, deve-se utilizar o formato `STRING`. 
 Para tal, foi utilizada a função `PARSE_DATE` que transforma a string formatada no tipo `DATE`, e o `FORMAT` para deixar utilizar o formato YYYY-MM-DD:
 
@@ -46,7 +46,7 @@ FROM `projeto-spotify-457320.dadoshistoricos.spotify`
 
 ```
 
-#### 4.1.7 Unir tabelas
+#### Unir tabelas
 As views de cada tabela foram construídas por meio de consulta SQL, da seguinte maneira:
 
 ```
@@ -132,7 +132,7 @@ LEFT JOIN `projeto-spotify-457320.dadoshistoricos.view-technical-info` AS t
 
 ```
 
-#### 4.2.3 Distribuição dos dados através de histograma
+#### Distribuição dos dados através de histograma
 Para gerar os histogramas utilizando Python, inserimos o seguinte código:
 
 ```
@@ -163,7 +163,7 @@ Aqui foram analisadas as variáveis streams, bpm, in_spotify_playlists e in_spot
 ![histograma2](https://github.com/user-attachments/assets/e91c573a-f2da-4c76-8607-5d0cba51015b)
 
 
-#### 4.2.5 Análise da amostra em quartis
+#### Análise da amostra em quartis
 A consulta utilizada para categorização:
 
 ```
@@ -248,7 +248,7 @@ SELECT * FROM final;
 ```
 
 
-#### 4.2.6 Correlação entre variáveis
+#### Correlação entre variáveis
 A análise foi realizada através da seguinte consulta:
 
 ```
@@ -285,7 +285,7 @@ FROM
 
 ```
 
-##### 5.1 Segmentação
+##### Segmentação
 A análise da Hipótese 4, envolveu a criação de uma view auxiliar, contando o número total de faixas, agrupado por artista e só então, realizado o cálculo de correlação, considerando o total de faixas por artista e o total de streams.
 
 ```
