@@ -1,5 +1,2 @@
-# reconhecimento de Python
 *.py linguist-language=Python
-
-# E rforçar .sql como SQL
 *.sql linguist-language=SQL
