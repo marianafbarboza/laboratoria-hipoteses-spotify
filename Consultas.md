@@ -31,7 +31,7 @@ SELECT streams,
 SAFE_CAST(streams AS INT64) AS streams_limpo
 
 FROM `projeto-spotify-457320.dadoshistoricos.spotify`
-.sql
+
 ```
 
 #### Criação de Novas Variáveis
