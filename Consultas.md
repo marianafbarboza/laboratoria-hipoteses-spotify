@@ -18,7 +18,7 @@ WHERE
 ```
 
 #### Identificação e Tratamento de Dados Discrepantes
-Para trataento de caracteres especiais foram utilizadas as funções `REGEXUP_REPLACE` e `LOWER` para tratar estes casos. 
+Para tratamento de caracteres especiais foram utilizadas as funções `REGEXUP_REPLACE` e `LOWER` para tratar estes casos. 
 - LOWER: converte todo o texto para letras minúsculas;
 - REGEXP_REPLACE(..., '[^\\x00-\\x7F]', ' '): identifica e substitui qualquer caractere não-ASCII (letras com acento, emojis e símbolos especiais) por um espaço;
 - REGEXP_REPLACE(..., '[^a-z0-9]', ' '): identifica e substitui qualquer coisa que não seja letra minúscula ou número por um espaço;
