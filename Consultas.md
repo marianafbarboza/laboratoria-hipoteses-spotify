@@ -35,7 +35,7 @@ FROM `projeto-spotify-457320.dadoshistoricos.spotify`
 ```
 
 #### Criação de Novas Variáveis
-Além da adição de uma nova variável (data_de_lançaento), as variáveis de data estavam definidas como do tipo `INTEGER` e para concatenar, deve-se utilizar o formato `STRING`. 
+Além da adição de uma nova variável (data_de_lançamento), as variáveis de data estavam definidas como do tipo `INTEGER` e para concatenar, deve-se utilizar o formato `STRING`. 
 Para tal, foi utilizada a função `PARSE_DATE` que transforma a string formatada no tipo `DATE`, e o `FORMAT` para deixar utilizar o formato YYYY-MM-DD:
 
 ```
