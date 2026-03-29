@@ -48,9 +48,10 @@ Contém características técnicas das músicas.
 | valence_% | Positividade da música |
 | energy_% | Nível de energia |
 | acousticness_% | Grau de acústica |
-
-
-As tabelas podem ser relacionadas através da coluna `track_id`, que funciona como chave primária em todas elas.
 | instrumentality_% | Presença instrumental |
 | liveness_% | Presença de performance ao vivo |
 | speechiness_% | Presença de fala |
+
+
+As tabelas podem ser relacionadas através da coluna `track_id`, que funciona como chave primária em todas elas.
+
