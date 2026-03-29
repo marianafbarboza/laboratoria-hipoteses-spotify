@@ -79,6 +79,12 @@ Para detalhes técnicos, consulte a pasta /sql.
 
 ---
 
+## Dashboard
+
+![Dashboard](assets/dashboard.png)
+
+---
+
 ## Recomendações
 - Priorizar estratégias de inclusão em playlists para aumentar a visibilidade das músicas;
 - Investir em presença multiplataforma para ampliar o alcance dos lançamentos;
@@ -93,6 +99,3 @@ Para detalhes técnicos, consulte a pasta /sql.
 Para conclusão do projeto os dados foram apresentados na seguinte [apresentação](docs/Apresentacao.pdf);
 
 O vídeo de entrega com a apresentação do projeto, pode ser acessado [aqui](https://www.loom.com/share/3b6d4ddd7b574d589f96742a2dc28b68);
-
-Dashboard:
-![Dashboard](assets/dashboard.png)
