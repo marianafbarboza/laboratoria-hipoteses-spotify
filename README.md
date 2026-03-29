@@ -11,6 +11,15 @@ As hipóteses levantadas pela gravadora são:
 
 ---
 
+## 📁 Estrutura do Projeto
+
+- `/sql` → queries utilizadas;
+- `/docs` → documentação da base;
+- `/insights` → principais conclusões;
+- `/assets` → imagens e gráficos;
+
+---
+
 ## Base de dados
 A base de dados utilizada está disponível no arquivo [spotify_2023.zip](data/spotify_2023.zip) deste projeto.
 
