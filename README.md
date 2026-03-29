@@ -34,6 +34,8 @@ A descrição da estrutura das tabelas e das variáveis pode ser consultada [aqu
 - Python;
 - Pensamento analítico;
 
+Para detalhes técnicos, consulte a pasta /sql.
+
 ---
 
 ## Conclusões principais
@@ -73,7 +75,7 @@ A descrição da estrutura das tabelas e das variáveis pode ser consultada [aqu
 - Popularidade entre plataformas → ✅ Correlação moderada  
 - Playlists vs Streams → ✅ Correlação forte  
 - Volume de músicas vs Streams → ✅ Correlação forte  
-- Características musicais vs Streams → ❌ Sem correlação  
+- Características musicais vs Streams → ❌ Sem correlação
 
 ---
 
