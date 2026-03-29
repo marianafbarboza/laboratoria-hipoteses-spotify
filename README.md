@@ -83,4 +83,5 @@ Para conclusão do projeto os dados foram apresentados na seguinte [apresentaç�
 
 O vídeo de entrega com a apresentação do projeto, pode ser acessado [aqui](https://www.loom.com/share/3b6d4ddd7b574d589f96742a2dc28b68);
 
+Dashboard:
 ![Dashboard](assets/dashboard.png)
