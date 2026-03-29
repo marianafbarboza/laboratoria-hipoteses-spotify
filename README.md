@@ -79,6 +79,6 @@ A descrição da estrutura das tabelas e das variáveis pode ser consultada [aqu
 ---
 
 ## Links importantes
-Para conclusão do projeto os dados foram apresentados na seguinte [apresentação](Apresentacao.pdf);
+Para conclusão do projeto os dados foram apresentados na seguinte [apresentação](docs/Apresentacao.pdf);
 
 O vídeo de entrega com a apresentação do projeto, pode ser acessado [aqui](https://www.loom.com/share/3b6d4ddd7b574d589f96742a2dc28b68);
