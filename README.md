@@ -13,7 +13,7 @@ As hipóteses levantadas pela gravadora são:
 
 ## Base de dados
 A base de dados utilizada está disponível no arquivo *spotify_2023.zip* deste projeto.
-A descrição da estrutura das tabelas e das variáveis pode ser consultada [aqui](Dataset-organization.md).
+A descrição da estrutura das tabelas e das variáveis pode ser consultada [aqui](.docs.Dataset_organizatopn.md).
 
 ---
 
