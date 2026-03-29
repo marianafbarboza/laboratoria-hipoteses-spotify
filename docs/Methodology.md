@@ -10,3 +10,5 @@ A análise foi estruturada em cinco etapas principais, utilizando BigQuery para 
 ### Power BI
 - Análise exploratória de dados; 
 - Validação de hipóteses por meio de análise de correlação. 
+
+Essa abordagem garantiu consistência dos dados e confiabilidade na geração dos insights.
